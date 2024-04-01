@@ -1,8 +1,6 @@
-Version 1.1
+![update](https://github.com/Expergefactor/Update-Ubuntu-System) Version 1.1 
 
-![updating](https://github.com/Expergefactor/Update-Ubuntu-System) 
 ![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
-
 
 ### DESCRIPTION
   Simple script to update your system using Ubuntu's APT and to clear up afterwards.
@@ -13,7 +11,7 @@ Version 1.1
   $ python3 update.py
 
 ### WHAT DOES IT DO?
-  The script runs the following commands...
+  The script runs the following commands in sucession...
   
     $ sudo apt-get update
     $ sudo apt-get upgrade -y
