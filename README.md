@@ -1,6 +1,8 @@
 Version 1.1
 
-![updating]([https://github.com/221702/Update/assets/133227259/fa26cef5-adaa-46eb-bf01-8d53677ec92f](https://github.com/Expergefactor/Update-Ubuntu-System/blob/main/img/updating.png))
+![updating](https://github.com/Expergefactor/Update-Ubuntu-System) 
+![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
+
 
 ### DESCRIPTION
   Simple script to update your system using Ubuntu's APT and to clear up afterwards.
