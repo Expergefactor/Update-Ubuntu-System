@@ -9,7 +9,7 @@ commands = [
     "sudo apt autoremove -y"
 ]
 # Define the cript version
-SCRIPT_VERSION = "\033[1;92mV.1.1\033[0m"
+SCRIPT_VERSION = "\033[1;92mV.1.2\033[0m"
 
 
 # Clear console
@@ -37,18 +37,18 @@ def run_command(command):
 clear_console()
 
 # print script version
-print(f"\033[1;92m                         Running version: \033[0m{SCRIPT_VERSION}")
+print(f"\033[1;92m                      Running version: \033[0m{SCRIPT_VERSION}")
 
 # ASCI art from patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=
 print("""
-                                                                                      
-    ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗██╗███╗   ██╗ ██████╗          
-    ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝          
-    ██║   ██║██████╔╝██║  ██║███████║   ██║   ██║██╔██╗ ██║██║  ███╗         
-    ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██║██║╚██╗██║██║   ██║         
-    ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝██╗██╗██╗
-     ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝╚═╝
-                                               
+
+ ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗██╗███╗   ██╗ ██████╗
+ ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝
+ ██║   ██║██████╔╝██║  ██║███████║   ██║   ██║██╔██╗ ██║██║  ███╗
+ ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██║██║╚██╗██║██║   ██║
+ ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝
+  ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝
+
 """)
 
 # Execute each command
@@ -56,4 +56,4 @@ for cmd in commands:
     run_command(cmd)
 
 # print epilog
-print(f"\n\033[1;92m    Thank you for using the system updater by Expergefactor\033[0m\n")
+print(f"\n\033[1;92m Thank you for using system updater by Expergefactor\033[0m\n")
