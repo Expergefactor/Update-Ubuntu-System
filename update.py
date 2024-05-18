@@ -5,7 +5,7 @@ import subprocess
 from tqdm import tqdm
 
 # Define the cript version
-SCRIPT_VERSION = "\033[1;92mV.1.4\033[0m"
+SCRIPT_VERSION = "\033[1;92mV.1.5\033[0m"
 
 
 # Clear console
@@ -58,6 +58,10 @@ def apt_update():
                     pbar.total = line_count
                 pbar.update(1)  # Increment progress bar
 
+        # Final update to ensure the progress bar completes
+        pbar.update(pbar.total - pbar.n)
+        pbar.close()
+
         # Ensure the process has completed
         return_code = process.poll()
         if return_code != 0:
@@ -65,16 +69,9 @@ def apt_update():
         else:
             print(" Command executed successfully\n\n")
 
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
     except Exception as e:
         print(f" An unexpected error occurred while executing command: {command}\n\n")
         print(f" Error message: {e}\n\n")
-
-    except KeyboardInterrupt:
-        print(" User initiated exit, exiting...\n\n")
 
 
 def apt_upgrade():
@@ -103,6 +100,10 @@ def apt_upgrade():
                     pbar.total = line_count
                 pbar.update(1)  # Increment progress bar
 
+        # Final update to ensure the progress bar completes
+        pbar.update(pbar.total - pbar.n)
+        pbar.close()
+
         # Ensure the process has completed
         return_code = process.poll()
         if return_code != 0:
@@ -110,16 +111,9 @@ def apt_upgrade():
         else:
             print(" Command executed successfully\n\n")
 
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
     except Exception as e:
         print(f" An unexpected error occurred while executing command: {command}\n\n")
         print(f" Error message: {e}\n\n")
-
-    except KeyboardInterrupt:
-        print(" User initiated exit, exiting...\n\n")
 
 
 def dist_upgrade():
@@ -148,6 +142,10 @@ def dist_upgrade():
                     pbar.total = line_count
                 pbar.update(1)  # Increment progress bar
 
+        # Final update to ensure the progress bar completes
+        pbar.update(pbar.total - pbar.n)
+        pbar.close()
+
         # Ensure the process has completed
         return_code = process.poll()
         if return_code != 0:
@@ -155,16 +153,9 @@ def dist_upgrade():
         else:
             print(" Command executed successfully\n\n")
 
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
     except Exception as e:
         print(f" An unexpected error occurred while executing command: {command}\n\n")
         print(f" Error message: {e}\n\n")
-
-    except KeyboardInterrupt:
-        print(" User initiated exit, exiting...\n\n")
 
 
 def autoremove():
@@ -193,6 +184,10 @@ def autoremove():
                     pbar.total = line_count
                 pbar.update(1)  # Increment progress bar
 
+        # Final update to ensure the progress bar completes
+        pbar.update(pbar.total - pbar.n)
+        pbar.close()
+
         # Ensure the process has completed
         return_code = process.poll()
         if return_code != 0:
@@ -200,16 +195,9 @@ def autoremove():
         else:
             print(" Command executed successfully\n\n")
 
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
     except Exception as e:
         print(f" An unexpected error occurred while executing command: {command}\n\n")
         print(f" Error message: {e}\n\n")
-
-    except KeyboardInterrupt:
-        print(" User initiated exit, exiting...\n\n")
 
 
 def snap_refresh():
@@ -238,6 +226,10 @@ def snap_refresh():
                     pbar.total = line_count
                 pbar.update(1)  # Increment progress bar
 
+        # Final update to ensure the progress bar completes
+        pbar.update(pbar.total - pbar.n)
+        pbar.close()
+
         # Ensure the process has completed
         return_code = process.poll()
         if return_code != 0:
@@ -245,16 +237,9 @@ def snap_refresh():
         else:
             print(" Command executed successfully\n\n")
 
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
     except Exception as e:
         print(f" An unexpected error occurred while executing command: {command}\n\n")
         print(f" Error message: {e}\n\n")
-
-    except KeyboardInterrupt:
-        print(" User initiated exit, exiting...\n\n")
 
 
 # Run processes with progress bars
@@ -268,4 +253,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(f"\n\033[1;92m    User initiated exit, exiting...\n"
+              f"    Thank you for using the system updater by Expergefactor.\033[0m\n")
