@@ -5,7 +5,7 @@ Version 1.3
 ### DESCRIPTION
   Script to update your Ubuntu based system & to clear up afterwards.
   
-  Individual tasks are prevented from displaying on-screen and are replaced with a task progress bar to provide a cleaner appearance. 
+  Individual tasks are prevented from displaying on-screen and are replaced with a dynamic progress bar to provide a cleaner appearance. 
 
 
 ### REQUIREMENTS
