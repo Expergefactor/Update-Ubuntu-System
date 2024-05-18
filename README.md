@@ -1,4 +1,4 @@
-Version 1.3
+Version 1.4
 
 ![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
 
