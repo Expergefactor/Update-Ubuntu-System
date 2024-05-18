@@ -3,7 +3,8 @@ Version 1.2
 ![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
 
 ### DESCRIPTION
-  Simple script to update your system using Ubuntu's APT and to clear up afterwards.
+  Script to update your Ubuntu based system & to clear up afterwards.
+  Individual tasks are prevented from displaying on-screen and are replaced with a task progress bar to provide a cleaner appearance. 
 
 ### HOW DO I USE IT?
   Place the update.py file in your home directory, open Terminal and use command,
