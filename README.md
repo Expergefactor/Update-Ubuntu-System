@@ -26,3 +26,9 @@ Version 1.5
     $ sudo apt-get dist-upgrade -y
     $ sudo apt autoremove -y
     $ sudo snap refresh
+
+### TDQM ISSUE?
+
+Try running:
+
+    $ sudo apt install python3-tqdm
