@@ -1,11 +1,13 @@
-Version 1.5
+Version 1.7
 
 ![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
 
 ### DESCRIPTION
   Script to update your Ubuntu based system & to clear up afterwards.
+
+  Automatic elevation to sudo if not run as sudo in first instance. 
   
-  Individual tasks are prevented from displaying on-screen and are replaced with a dynamic progress bar to provide a cleaner appearance. 
+  Individual tasks are represented with a progress bar whcih counts completed tasks per function. When the function is complete, progress bar displays 100%. 
 
 
 ### REQUIREMENTS
