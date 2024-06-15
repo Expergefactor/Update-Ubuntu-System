@@ -1,11 +1,13 @@
 # To run the script
 import os
 import subprocess
+import sys
+
 # For the display of progress bars.
 from tqdm import tqdm
 
 # Define the cript version
-SCRIPT_VERSION = "\033[1;92mV.1.6\033[0m"
+SCRIPT_VERSION = "\033[1;92mV.1.7\033[0m"
 
 
 # Clear console
@@ -13,8 +15,22 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def checkpermissions():
+    try:
+        if os.geteuid() != 0:
+            # If not executed as root, re-execute as root
+            print(" \033[91mSystem updater requires Super User privileges, elevating to sudo...\033[0m")
+            args = ["sudo", sys.executable] + sys.argv
+            os.execvp("sudo", args)
+    except PermissionError:
+        pass
+
+
 # Clear condole
 clear_console()
+
+# Check permissions
+checkpermissions()
 
 # print script version
 print(f"\n\033[1;92m                            Running version: \033[0m{SCRIPT_VERSION}")
@@ -28,7 +44,11 @@ print("""
         ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██║██║╚██╗██║██║   ██║         
         ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝██╗██╗██╗
          ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝╚═╝
-
+         
+        Status bars count completed processes and are not representative of the 
+        overall % progress. 
+        
+        When the last task has been executed, the progress bar will show 100% 
 """)
 
 
@@ -41,7 +61,7 @@ def apt_update():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 500  # Start with an arbitrary number
+        estimated_total_lines = 1000  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Updating Advanced Packaging Tool")
 
         line_count = 0
@@ -83,7 +103,7 @@ def apt_upgrade():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 500  # Start with an arbitrary number
+        estimated_total_lines = 1000  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Upgrading Advanced Packaging Tool")
 
         line_count = 0
@@ -125,7 +145,7 @@ def dist_upgrade():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 500  # Start with an arbitrary number
+        estimated_total_lines = 1000  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Upgrading Distribution")
 
         line_count = 0
@@ -167,7 +187,7 @@ def autoremove():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 500  # Start with an arbitrary number
+        estimated_total_lines = 1000  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Removing Redundant Packages")
 
         line_count = 0
@@ -209,7 +229,7 @@ def snap_refresh():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 500  # Start with an arbitrary number
+        estimated_total_lines = 1000  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Refreshing the Snap Store")
 
         line_count = 0
