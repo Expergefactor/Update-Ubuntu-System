@@ -7,7 +7,7 @@ import sys
 from tqdm import tqdm
 
 # Define the cript version
-SCRIPT_VERSION = "\033[1;92mV.1.7\033[0m"
+SCRIPT_VERSION = "\033[1;92mV.1.8\033[0m"
 
 
 # Clear console
@@ -61,7 +61,7 @@ def apt_update():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
+        estimated_total_lines = 0  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Updating Advanced Packaging Tool")
 
         line_count = 0
@@ -90,8 +90,7 @@ def apt_update():
             print(" Command executed successfully\n\n")
 
     except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+        print(f" Error with {command}: {e}\n\n")
 
 
 def apt_upgrade():
@@ -103,7 +102,7 @@ def apt_upgrade():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
+        estimated_total_lines = 0  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Upgrading Advanced Packaging Tool")
 
         line_count = 0
@@ -132,8 +131,7 @@ def apt_upgrade():
             print(" Command executed successfully\n\n")
 
     except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+        print(f" Error with {command}: {e}\n\n")
 
 
 def dist_upgrade():
@@ -145,7 +143,7 @@ def dist_upgrade():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
+        estimated_total_lines = 0  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Upgrading Distribution")
 
         line_count = 0
@@ -174,8 +172,7 @@ def dist_upgrade():
             print(" Command executed successfully\n\n")
 
     except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+        print(f" Error with {command}: {e}\n\n")
 
 
 def autoremove():
@@ -187,7 +184,7 @@ def autoremove():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
+        estimated_total_lines = 0  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Removing Redundant Packages")
 
         line_count = 0
@@ -216,8 +213,7 @@ def autoremove():
             print(" Command executed successfully\n\n")
 
     except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+        print(f" Error with {command}: {e}\n\n")
 
 
 def snap_refresh():
@@ -229,7 +225,7 @@ def snap_refresh():
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
+        estimated_total_lines = 0  # Start with an arbitrary number
         pbar = tqdm(total=estimated_total_lines, desc="Refreshing the Snap Store")
 
         line_count = 0
@@ -258,8 +254,7 @@ def snap_refresh():
             print(" Command executed successfully\n\n")
 
     except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+        print(f" Error with {command}: {e}\n\n")
 
 
 # Run processes with progress bars
