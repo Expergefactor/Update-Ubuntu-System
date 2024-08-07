@@ -1,16 +1,13 @@
-# To run the script
 import os
 import subprocess
 import sys
-
-# For the display of progress bars.
+import threading
+import time
 from tqdm import tqdm
 
-# Define the cript version
-SCRIPT_VERSION = "\033[1;92mV.1.7\033[0m"
+SCRIPT_VERSION = "\033[1;92m1.8.1\033[0m"
 
 
-# Clear console
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -26,255 +23,117 @@ def checkpermissions():
         pass
 
 
-# Clear condole
-clear_console()
+def run_command_with_progress(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True,
+                               shell=True)
 
-# Check permissions
-checkpermissions()
+    bar_format = "{l_bar} Processing... {bar} Data Processed: {n_fmt}B | Time Elapsed: {elapsed}"
 
-# print script version
-print(f"\n\033[1;92m                            Running version: \033[0m{SCRIPT_VERSION}")
+    pbar = tqdm(unit="B", unit_scale=True, unit_divisor=1024,
+                bar_format=bar_format)
 
-# ASCI art from patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=
-print("""
+    start_time = time.time()
 
-        ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗██╗███╗   ██╗ ██████╗          
-        ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝          
-        ██║   ██║██████╔╝██║  ██║███████║   ██║   ██║██╔██╗ ██║██║  ███╗         
-        ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██║██║╚██╗██║██║   ██║         
-        ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝██╗██╗██╗
-         ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝╚═╝
-         
-        Status bars count completed processes and are not representative of the 
-        overall % progress. 
-        
-        When the last task has been executed, the progress bar will show 100% 
-""")
+    def read_output():
+        nonlocal pbar
+        for line in process.stdout:
+            bytes_processed = len(line.encode('utf-8'))
+            pbar.update(bytes_processed)
+
+    output_thread = threading.Thread(target=read_output)
+    output_thread.start()
+
+    process.wait()
+    output_thread.join()
+
+    pbar.close()
+    end_time = time.time()
+    print(f"\033[1;92m Successfully completed in {end_time - start_time:.2f} seconds\033[0m\n")
 
 
 def apt_update():
-    # command to run
     command = 'sudo apt-get update'
-
+    print("\033[1;97m Updating Advanced Packaging Tool...\033[0m")
     try:
-        # Start the process
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        run_command_with_progress(command)
 
-        # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
-        pbar = tqdm(total=estimated_total_lines, desc="Updating Advanced Packaging Tool")
-
-        line_count = 0
-
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                line_count += 1
-                # Update progress bar
-                if line_count > estimated_total_lines:
-                    # Dynamically increase the total if needed
-                    pbar.total = line_count
-                pbar.update(1)  # Increment progress bar
-
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
-        # Ensure the process has completed
-        return_code = process.poll()
-        if return_code != 0:
-            print(f" Command failed with return code {return_code}\n\n")
-        else:
-            print(" Command executed successfully\n\n")
-
-    except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+    except Exception as apt_update_error:
+        print(f'{apt_update_error}')
 
 
 def apt_upgrade():
-    # command to run
     command = 'sudo apt-get upgrade -y'
+    print("\033[1;97m Upgrading Advanced Packaging Tool...\033[0m")
 
     try:
-        # Start the process
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        run_command_with_progress(command)
 
-        # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
-        pbar = tqdm(total=estimated_total_lines, desc="Upgrading Advanced Packaging Tool")
-
-        line_count = 0
-
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                line_count += 1
-                # Update progress bar
-                if line_count > estimated_total_lines:
-                    # Dynamically increase the total if needed
-                    pbar.total = line_count
-                pbar.update(1)  # Increment progress bar
-
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
-        # Ensure the process has completed
-        return_code = process.poll()
-        if return_code != 0:
-            print(f" Command failed with return code {return_code}\n\n")
-        else:
-            print(" Command executed successfully\n\n")
-
-    except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+    except Exception as apt_upgrade_error:
+        print(f'{apt_upgrade_error}')
 
 
 def dist_upgrade():
-    # command to run
     command = 'sudo apt-get dist-upgrade -y'
+    print("\033[1;97m Upgrading Distribution...\033[0m")
 
     try:
-        # Start the process
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        run_command_with_progress(command)
 
-        # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
-        pbar = tqdm(total=estimated_total_lines, desc="Upgrading Distribution")
-
-        line_count = 0
-
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                line_count += 1
-                # Update progress bar
-                if line_count > estimated_total_lines:
-                    # Dynamically increase the total if needed
-                    pbar.total = line_count
-                pbar.update(1)  # Increment progress bar
-
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
-        # Ensure the process has completed
-        return_code = process.poll()
-        if return_code != 0:
-            print(f" Command failed with return code {return_code}\n\n")
-        else:
-            print(" Command executed successfully\n\n")
-
-    except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+    except Exception as dist_upgrade_error:
+        print(f'{dist_upgrade_error}')
 
 
 def autoremove():
-    # command to run
     command = 'sudo apt autoremove -y'
+    print("\033[1;97m Removing Redundant Packages...\033[0m")
 
     try:
-        # Start the process
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        run_command_with_progress(command)
 
-        # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
-        pbar = tqdm(total=estimated_total_lines, desc="Removing Redundant Packages")
-
-        line_count = 0
-
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                line_count += 1
-                # Update progress bar
-                if line_count > estimated_total_lines:
-                    # Dynamically increase the total if needed
-                    pbar.total = line_count
-                pbar.update(1)  # Increment progress bar
-
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
-        # Ensure the process has completed
-        return_code = process.poll()
-        if return_code != 0:
-            print(f" Command failed with return code {return_code}\n\n")
-        else:
-            print(" Command executed successfully\n\n")
-
-    except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+    except Exception as autoremove_error:
+        print(f'{autoremove_error}')
 
 
 def snap_refresh():
-    # command to run
     command = 'sudo snap refresh'
+    print("\033[1;97m Refreshing the Snap Store...\033[0m")
 
     try:
-        # Start the process
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        run_command_with_progress(command)
 
-        # Initialize the progress bar with an initial estimate
-        estimated_total_lines = 1000  # Start with an arbitrary number
-        pbar = tqdm(total=estimated_total_lines, desc="Refreshing the Snap Store")
-
-        line_count = 0
-
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                line_count += 1
-                # Update progress bar
-                if line_count > estimated_total_lines:
-                    # Dynamically increase the total if needed
-                    pbar.total = line_count
-                pbar.update(1)  # Increment progress bar
-
-        # Final update to ensure the progress bar completes
-        pbar.update(pbar.total - pbar.n)
-        pbar.close()
-
-        # Ensure the process has completed
-        return_code = process.poll()
-        if return_code != 0:
-            print(f" Command failed with return code {return_code}\n\n")
-        else:
-            print(" Command executed successfully\n\n")
-
-    except Exception as e:
-        print(f" An unexpected error occurred while executing command: {command}\n\n")
-        print(f" Error message: {e}\n\n")
+    except Exception as snap_refresh_error:
+        print(f'{snap_refresh_error}')
 
 
-# Run processes with progress bars
-def main():
+try:
+    clear_console()
+    checkpermissions()
+
+    print(f"""
+
+            ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗██╗███╗   ██╗ ██████╗          
+            ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝          
+            ██║   ██║██████╔╝██║  ██║███████║   ██║   ██║██╔██╗ ██║██║  ███╗         
+            ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██║██║╚██╗██║██║   ██║         
+            ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝██╗██╗██╗
+             ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝╚═╝
+                                
+                                        \033[1;92mv.\033[0m{SCRIPT_VERSION}
+    """)
+
+    print(f"")
+
     apt_update()
     apt_upgrade()
     dist_upgrade()
     autoremove()
     snap_refresh()
-    print(f"\n\033[1;92m    Thank you for using the system updater by Expergefactor\033[0m\n")
 
+    print(f"\033[1;92m    Thank you for using the system updater by Expergefactor\033[0m\n")
 
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print(f"\n\033[1;92m    User initiated exit, exiting...\n"
-              f"    Thank you for using the system updater by Expergefactor.\033[0m\n")
+except Exception as e:
+    print(f"\033[1;91m An unexpected error occurred while executing command: {command} - {e}\n\033[0m")
+
+except KeyboardInterrupt:
+    print("\n\033[1;92m User initiated exit, exiting...\n"
+          "         Thank you for using the system updater by Expergefactor.\033[0m\n")
