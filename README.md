@@ -7,11 +7,11 @@ Version 1.8.1
 
   Automatic elevation to sudo if not run as sudo in first instance. 
   
-  Individual tasks are represented with a progress bar whcih counts completed tasks per function. When the function is complete, progress bar displays 100%. 
+  Progress of tasks is printed to Terminal with information such as volume of data processed, time elapsed & confirmation that the task completed (or not).
 
 
 ### REQUIREMENTS
-  Required for display of progress bars.
+  Required for display of dynamic information on task progress...
   
     $ pip install tqdm
 
