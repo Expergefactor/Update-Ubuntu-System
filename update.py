@@ -5,7 +5,7 @@ import threading
 import time
 from tqdm import tqdm
 
-SCRIPT_VERSION = "\033[1;92m1.8.1\033[0m"
+SCRIPT_VERSION = "\033[1;92m1.8.2\033[0m"
 
 
 def clear_console():
@@ -15,7 +15,6 @@ def clear_console():
 def checkpermissions():
     try:
         if os.geteuid() != 0:
-            # If not executed as root, re-execute as root
             print(" \033[91mSystem updater requires Super User privileges, elevating to sudo...\033[0m")
             args = ["sudo", sys.executable] + sys.argv
             os.execvp("sudo", args)
@@ -27,9 +26,9 @@ def run_command_with_progress(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True,
                                shell=True)
 
-    bar_format = "{l_bar} Processing... {bar} Data Processed: {n_fmt}B | Time Elapsed: {elapsed}"
+    bar_format = "{l_bar} Processing... {bar} Processed: {n}B | Rate: {rate_fmt} | Time Elapsed: {elapsed}"
 
-    pbar = tqdm(unit="B", unit_scale=True, unit_divisor=1024,
+    pbar = tqdm(range(1024 * 1024 * 100), unit="MB", unit_scale=True, unit_divisor=1024*1024,
                 bar_format=bar_format)
 
     start_time = time.time()
