@@ -5,7 +5,7 @@ import threading
 import time
 from tqdm import tqdm
 
-SCRIPT_VERSION = "\033[1;92m1.8.2\033[0m"
+SCRIPT_VERSION = "\033[1;92m1.9\033[0m"
 
 
 def clear_console():
@@ -26,10 +26,9 @@ def run_command_with_progress(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, text=True,
                                shell=True)
 
-    bar_format = "{l_bar} Processing... {bar} Processed: {n}B | Rate: {rate_fmt} | Time Elapsed: {elapsed}"
+    bar_format = "{bar} Processed: {n} Bytes | Time Elapsed: {elapsed}"
 
-    pbar = tqdm(range(1024 * 1024 * 100), unit="MB", unit_scale=True, unit_divisor=1024*1024,
-                bar_format=bar_format)
+    pbar = tqdm(bar_format=bar_format)
 
     start_time = time.time()
 
@@ -82,8 +81,19 @@ def dist_upgrade():
         print(f'{dist_upgrade_error}')
 
 
+def clean():
+    command = 'sudo apt clean -y'
+    print("\033[1;97m Cleaning up...\033[0m")
+
+    try:
+        run_command_with_progress(command)
+
+    except Exception as autoremove_error:
+        print(f'{autoremove_error}')
+
+
 def autoremove():
-    command = 'sudo apt autoremove -y'
+    command = 'sudo apt-get autoremove -y'
     print("\033[1;97m Removing Redundant Packages...\033[0m")
 
     try:
@@ -102,6 +112,43 @@ def snap_refresh():
 
     except Exception as snap_refresh_error:
         print(f'{snap_refresh_error}')
+
+
+def update_snap():
+    update_snap_app = input(' Would you like to update the Snap Store application?\n'
+                            ' If there is an update to the Snap Store application, this function kills\n'
+                            ' the app and installs the latest version. Use "y" or "n": ')
+    try:
+
+        if update_snap_app == 'y':
+            command = 'sudo pkill snap-store && sudo snap refresh snap-store'
+            print("\033[1;97m Updating the Snap Store...\033[0m")
+
+            try:
+                run_command_with_progress(command)
+                exit_updater()
+
+            except Exception as snap_refresh_error:
+                print(f'{snap_refresh_error}')
+
+        if update_snap_app == 'n':
+            exit_updater()
+
+        else:
+            print("\n\033[1;91m Invalid option, try again...\033[0m\n")
+            update_snap()
+
+    except KeyboardInterrupt:
+        print("\n\033[1;92m Exiting...\033[0m\n")
+        exit_updater()
+
+    except Exception as snap_refresh_errorr:
+        print(f' Error: {snap_refresh_errorr}')
+
+
+def exit_updater():
+    print(f"\033[1;92m\n    Thank you for using the system updater by Expergefactor\033[0m\n")
+    exit(0)
 
 
 try:
@@ -125,14 +172,13 @@ try:
     apt_update()
     apt_upgrade()
     dist_upgrade()
+    clean()
     autoremove()
     snap_refresh()
-
-    print(f"\033[1;92m    Thank you for using the system updater by Expergefactor\033[0m\n")
+    update_snap()
 
 except Exception as e:
-    print(f"\033[1;91m An unexpected error occurred while executing command: {command} - {e}\n\033[0m")
+    print(f"\033[1;91m Error: {e}\n\033[0m")
 
 except KeyboardInterrupt:
-    print("\n\033[1;92m User initiated exit, exiting...\n"
-          "         Thank you for using the system updater by Expergefactor.\033[0m\n")
+    exit_updater()
