@@ -23,13 +23,17 @@ Version 9
     $ python3 update.py
 
 ### WHAT DOES IT DO?
-  The script runs the following commands in sucession...
+  The script executes the following commands in sucession...
   
     $ sudo apt-get update
     $ sudo apt-get upgrade -y
     $ sudo apt-get dist-upgrade -y
     $ sudo apt autoremove -y
     $ sudo snap refresh
+
+  If the Snap Store is to be updated, the following command will be executed...
+
+    $ sudo pkill snap-store && sudo snap refresh snap-store
 
 ### TDQM ISSUE?
 
