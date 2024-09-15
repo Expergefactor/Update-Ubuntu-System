@@ -1,4 +1,4 @@
-Version 1.8.2
+Version 9
 
 ![updating](https://github.com/Expergefactor/Update-Ubuntu-System/assets/133227259/a7209593-1a98-4962-bc63-4ebdeac7694d)
 
@@ -8,6 +8,8 @@ Version 1.8.2
   Automatic elevation to sudo if not run as sudo in first instance. 
   
   Progress of tasks is printed to Terminal with information such as volume of data processed, time elapsed & confirmation that the task completed (or not).
+
+  Version 9 introduces an option to update the Snap Store application which is useful in instances when the Snap Store cannot be updated whilst it is open/running. 
 
 
 ### REQUIREMENTS
